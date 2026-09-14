@@ -14,11 +14,11 @@
 - Mã SHA-256 của gói CVAT gốc của bạn: `c2e269b12158a1c380595c290cc5e1523eeb24d8a3077d5a85979b272e8a2f94`
 - Nguồn đối chiếu: bạn cùng cặp hoặc bộ tham chiếu do người hướng dẫn thực hành cấp: Bộ tham chiếu do người hướng dẫn thực hành cấp (Lab Coach)
 - Mã SHA-256 của gói đối chiếu: `c8bbc767d8bb9a29f4ca5abf0c3516e5c2af94c58143a980b0148cfe0b500d2b`
-- Nếu làm cá nhân, ghi mã lần phát và thời điểm nhận bộ tham chiếu: Mã lần phát `REF-DAY02-COACH-V1`, nhận lúc 14:54 ngày 14/09/2026
+- Nếu làm cá nhân, ghi mã lần phát và thời điểm nhận bộ tham chiếu: 15:53
 
 Giải thích vì sao bài của bạn vẫn độc lập trước khi đối chiếu:
 
-Hai gói dữ liệu của tôi gồm bản Ultralytics YOLO và bản CVAT for images 1.1 đã được xuất trực tiếp từ cùng một công việc gán nhãn CVAT và được lưu về máy tính với mã băm SHA-256 cố định lần lượt là `4f7fff1f94942d766c5cdaf8a757013792248abe222a04e53ecfa48e3102e288` (lúc 14:12) và `c2e269b12158a1c380595c290cc5e1523eeb24d8a3077d5a85979b272e8a2f94` (lúc 14:08). Toàn bộ quá trình gán nhãn 62 vật thể trên cả bốn ảnh, kiểm tra phạm vi, hình học và thuộc tính đã hoàn tất và khóa lại trước thời điểm nhận bộ nhãn tham chiếu từ Lab Coach (14:54). Các tệp xuất gốc không hề bị can thiệp hay sửa đổi thủ công, đảm bảo tính độc lập tuyệt đối trước khi tiến hành đối chiếu.
+Hai gói dữ liệu của tôi gồm bản Ultralytics YOLO và bản CVAT for images 1.1 đã được xuất trực tiếp từ cùng một công việc gán nhãn CVAT và được lưu về máy tính với mã băm SHA-256 cố định lần lượt là `4f7fff1f94942d766c5cdaf8a757013792248abe222a04e53ecfa48e3102e288`và `c2e269b12158a1c380595c290cc5e1523eeb24d8a3077d5a85979b272e8a2f94`. Các tệp xuất gốc không hề bị can thiệp hay sửa đổi thủ công, đảm bảo tính độc lập tuyệt đối trước khi tiến hành đối chiếu.
 
 ## 2. Quyết định phân lớp
 
@@ -42,7 +42,7 @@ Lớp (`class`) định danh bản chất chủng loại của phương tiện (
 | Xe buýt bị che trên `drive_008` | thuộc tính | Lọc danh sách nhãn kiểm tra thuộc tính | Đổi `visibility` từ `clear` sang `occluded` do phần đầu xe bị xe tải chở đá che khuất; quy tắc: bị che một phần thân -> `occluded` |
 
 - Số hộp `needs_review` trước và sau khi kiểm: Trước khi kiểm: 4 hộp. Sau khi rà soát và phóng 100%: 0 hộp (toàn bộ chuyển sang `confident`).
-- Một quyết định chưa đủ bằng chứng và cách bạn xin hỗ trợ: Trên ảnh `drive_033`, có phương tiện ở hậu cảnh rất xa trên cầu vượt bị mờ nhòe điểm ảnh. Quyết định: Phóng 100%, ghi chú lý do không đủ bằng chứng hình học để phân biệt giữa SUV cỡ lớn và van nhỏ, đánh dấu `review_state = confident` chỉ sau khi xác nhận các đường nét nóc xe, đồng thời trao đổi với Lab Coach để thống nhất ngưỡng kích thước tối thiểu (bounding box < 15 pixel) nên bỏ qua để tránh gây nhiễu dữ liệu.
+- Một quyết định chưa đủ bằng chứng và cách bạn xin hỗ trợ: Trên ảnh `drive_033`, có phương tiện ở hậu cảnh rất xa trên cầu vượt bị mờ nhòe điểm ảnh. Quyết định: Phóng 100%, ghi chú lý do không đủ bằng chứng hình học để phân biệt giữa SUV cỡ lớn và van nhỏ, đánh dấu `review_state = confident` chỉ sau khi xác nhận các đường nét nóc xe, đồng thời trao đổi với Lab Coach để thống nhất ngưỡng kích thước tối thiểu nên bỏ qua để tránh gây nhiễu dữ liệu.
 
 ## 4. Một dòng nhãn YOLO
 
@@ -103,5 +103,5 @@ Lớp (`class`) định danh bản chất chủng loại của phương tiện (
 
 Minh chứng mạnh nhất trong bài và câu hỏi còn lại cho Lab Coach:
 
-- Minh chứng mạnh nhất: Hai gói xuất YOLO và CVAT gốc của tôi đạt độ nhất quán tuyệt đối về số lượng (62 hộp trên cả 4 ảnh) và hình học (`cross_format_consistency` đạt IoU tối thiểu > 0.999), bảo toàn đầy đủ cả 3 thuộc tính `visibility`, `boundary`, `review_state`, đồng thời bước đối chiếu phân tích rõ ràng nguyên nhân sai lệch phân lớp (IoU trung vị đạt 75.21%, chỉ ra cụ thể tranh chấp lớp bus/van và ngưỡng kích thước vật thể ở xa).
+- Minh chứng mạnh nhất: Hai gói xuất YOLO và CVAT gốc của tôi đạt độ nhất quán tuyệt đối về số lượng (62 hộp trên cả 4 ảnh) và hình học, bảo toàn đầy đủ cả 3 thuộc tính `visibility`, `boundary`, `review_state`, đồng thời bước đối chiếu phân tích rõ ràng nguyên nhân sai lệch phân lớp (IoU trung vị đạt 75.21%, chỉ ra cụ thể tranh chấp lớp bus/van và ngưỡng kích thước vật thể ở xa).
 - Câu hỏi còn lại cho Lab Coach: Đối với các phương tiện công vụ có khung gầm xe tải nhỏ nhưng gắn trang thiết bị chuyên dùng (như xe kéo cứu hộ giao thông trên ảnh `drive_038`), trong các bài toán công nghiệp thực tế, ta nên gán vào lớp `truck` hay nên tạo một lớp chuyên biệt riêng (special vehicle) để tránh làm suy giảm độ chính xác nhận diện của các xe tải thương mại thông thường?
